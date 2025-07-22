@@ -4,20 +4,22 @@ import { RouterLink, RouterView } from 'vue-router'
 
 const socket = inject("socket")
 const userInfo = inject("userInfo")
+const allUserInfo = inject("allUserInfo")
 const message = inject("socketMessage")
-const targetString = inject("targetString")
+const rollTargetString = inject("rollTargetString")
+const allChessRoom = inject("allChessRoom")
+const joinedRoom = inject("joinedRoom")
 
 const socketOpen = () => {
-  socket.send(JSON.stringify({ type: "getUserInfo", data: {} }))
+  socket.send(JSON.stringify({ type: "createUserInfo", data: {} }))
 }
 
 socket.addEventListener("open", socketOpen)
 
 const socketMessage = (event) => {
   let data = JSON.parse(event.data)
-  if (data.text.type == "getUserInfo") {
-    userInfo.value = JSON.parse(JSON.stringify(data.text.data.userInfo))
-    return
+  if (data.text.type == "createUserInfo") {
+    userInfo.value = data.text.data.userInfo
   }
   else if (data.text.type == "newUserInfo") {
     message.value.push(data)
@@ -25,14 +27,45 @@ const socketMessage = (event) => {
   else if (data.text.type == "setUserInfo") {
     message.value.push(data)
   }
+  else if (data.text.type == "getAllUserInfo") {
+    allUserInfo.value = data.text.data.allUserInfo
+  }
   else if (data.text.type == "chat") {
     message.value.push(data)
   }
   else if (data.text.type == "roll") {
     message.value.push(data)
   }
-  else if (data.text.type == "getAllUserInfo") {
-    targetString.value += "\n" + data.text.data.allUserInfo.map((value) => { return `${value.name}` }).join("\n")
+  else if (data.text.type == "getRollAllUserInfo") {
+    rollTargetString.value += "\n" + data.text.data.allUserInfo.map((value) => { return `${value.name}` }).join("\n")
+  }
+  else if (data.text.type == "getAllChessRoom") {
+    allChessRoom.value = data.text.data.allChessRoom
+  }
+  else if (data.text.type == "createChessRoom") {
+    joinedRoom.value.chessRoom = data.text.data.chessRoom
+    joinedRoom.value.roomType = data.text.data.roomType
+    allChessRoom.value.push(joinedRoom.value)
+    console.log("createChessRoom", joinedRoom.value)
+  }
+  else if (data.text.type == "newChessRoom") {
+    allChessRoom.value.push(data.text.data.chessRoom)
+  }
+  else if (data.text.type == "joinChessRoom") {
+    joinedRoom.value.chessRoom = data.text.data.chessRoom
+    joinedRoom.value.roomType = data.text.data.roomType
+  }
+  else if (data.text.type == "leaveChessRoom") {
+    joinedRoom.value = {}
+  }
+  else if (data.text.type == "deleteChessRoom") {
+    allChessRoom.value = allChessRoom.value.filter(room => room.id != data.text.data.chessRoom.id)
+    if (joinedRoom.value.chessRoom && joinedRoom.value.chessRoom.id == data.text.data.chessRoom.id) {
+      joinedRoom.value = {}
+    }
+  }
+  else {
+    console.warn("Unknown message:", data)
   }
 }
 

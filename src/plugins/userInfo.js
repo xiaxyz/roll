@@ -4,8 +4,11 @@ export default {
   install: (app) => {
 
     const userInfo = ref({})
+    const allUserInfo = ref([])
 
     app.config.globalProperties.$userInfo = userInfo
-    app.provide('userInfo', userInfo)
+    app.config.globalProperties.$allUserInfo = allUserInfo
+    app.provide("userInfo", userInfo)
+    app.provide("allUserInfo", allUserInfo)
   }
 }

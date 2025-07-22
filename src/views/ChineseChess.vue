@@ -1,18 +1,21 @@
 <script setup>
 import ChessBoard from '@/components/ChessBoard.vue';
-// import { inject } from 'vue';
+import ChessRoom from '@/components/ChessRoom.vue';
+import { inject } from 'vue';
 
 
-// const socket = inject("socket")
+const joinedRoom = inject("joinedRoom")
 
 </script>
 
 <template>
   <div class="container">
-    <div class="session">
+    <div class="session" v-if="Object.keys(joinedRoom).length > 0">
       <ChessBoard />
     </div>
-    <div class="room"></div>
+    <div class="room" v-else-if="Object.keys(joinedRoom).length == 0">
+      <ChessRoom />
+    </div>
   </div>
 </template>
 
@@ -24,12 +27,12 @@ import ChessBoard from '@/components/ChessBoard.vue';
 }
 
 .session {
-  width: 50%;
+  width: 100%;
   height: 100%;
 }
 
 .room {
-  width: 50%;
+  width: 100%;
   height: 100%;
 }
 </style>

@@ -3,18 +3,18 @@ import { ref } from "vue"
 export default {
   install: (app) => {
 
-    const targetString = ref("")
-    const fromListIndex = ref([])
-    const selectedCount = ref(1)
-    const selectedList = ref([])
+    const rollTargetString = ref("")
+    const rollFromListIndex = ref([])
+    const rollSelectedCount = ref(1)
+    const rollSelectedList = ref([])
 
-    app.config.globalProperties.$targetString = targetString
-    app.config.globalProperties.$fromListIndex = fromListIndex
-    app.config.globalProperties.$selectedCount = selectedCount
-    app.config.globalProperties.$selectedList = selectedList
-    app.provide("targetString", targetString)
-    app.provide("fromListIndex", fromListIndex)
-    app.provide("selectedCount", selectedCount)
-    app.provide("selectedList", selectedList)
+    app.config.globalProperties.$rollTargetString = rollTargetString
+    app.config.globalProperties.$rollFromListIndex = rollFromListIndex
+    app.config.globalProperties.$rollSelectedCount = rollSelectedCount
+    app.config.globalProperties.$rollSelectedList = rollSelectedList
+    app.provide("rollTargetString", rollTargetString)
+    app.provide("rollFromListIndex", rollFromListIndex)
+    app.provide("rollSelectedCount", rollSelectedCount)
+    app.provide("rollSelectedList", rollSelectedList)
   }
 }
