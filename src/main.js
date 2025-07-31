@@ -8,15 +8,17 @@ import socketMessage from './plugins/socketMessage'
 import userInfo from './plugins/userInfo'
 import roll from './plugins/roll'
 import chessRoom from './plugins/chessRoom'
+import roomInfo from './plugins/roomInfo'
 
 const app = createApp(App)
 
 app.use(router)
 
-app.use(socket, "ws://192.168.1.117:8080")
+app.use(socket, "ws://192.168.1.133:8080")
 app.use(socketMessage)
 app.use(userInfo)
 app.use(roll)
 app.use(chessRoom)
+app.use(roomInfo)
 
 app.mount('#app')

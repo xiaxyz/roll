@@ -5,52 +5,52 @@ import { computed, inject } from 'vue';
 const socket = inject("socket")
 
 
-const targetString = inject("targetString")
+const rollTargetString = inject("rollTargetString")
 
-const fromListIndex = inject("fromListIndex")
-const selectedCount = inject("selectedCount")
-const selectedList = inject("selectedList")
+const rollFromListIndex = inject("rollFromListIndex")
+const rollSelectedCount = inject("rollSelectedCount")
+const rollSelectedList = inject("rollSelectedList")
 
 const targetList = computed(() => {
-  return targetString.value.split("\n").filter(item => item !== "")
+  return rollTargetString.value.split("\n").filter(item => item !== "")
 })
 
 const allFrom = computed(() => {
-  return fromListIndex.value.length == targetList.value.length
+  return rollFromListIndex.value.length == targetList.value.length
 })
 
 const toggleAll = () => {
-  if (fromListIndex.value.length === targetList.value.length) {
-    fromListIndex.value = []
+  if (rollFromListIndex.value.length === targetList.value.length) {
+    rollFromListIndex.value = []
   } else {
-    fromListIndex.value = targetList.value.map((_, index) => { return index });
+    rollFromListIndex.value = targetList.value.map((_, index) => { return index });
   }
 }
 
 const getAllUser = () => {
   let message = {
-    type: "getAllUserInfo",
+    type: "getRollAllUserInfo",
     data: {}
   }
   socket.send(JSON.stringify(message))
 }
 
 const shuffle = () => {
-  let arr = [...fromListIndex.value]
+  let arr = [...rollFromListIndex.value]
   for (let i = arr.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [arr[i], arr[j]] = [arr[j], arr[i]];
   }
-  selectedList.value = arr.slice(0, selectedCount.value).map((value) => { return targetList.value[value] })
-  let fromList = fromListIndex.value.map((value) => { return targetList.value[value] })
+  rollSelectedList.value = arr.slice(0, rollSelectedCount.value).map((value) => { return targetList.value[value] })
+  let fromList = rollFromListIndex.value.map((value) => { return targetList.value[value] })
   let message = {
     type: "roll",
     data: {
       rollResult: {
-        fromCount: fromListIndex.value.length,
+        fromCount: rollFromListIndex.value.length,
         fromList: fromList,
-        selectedCount: selectedCount.value,
-        selectedList: selectedList.value
+        rollSelectedCount: rollSelectedCount.value,
+        rollSelectedList: rollSelectedList.value
       }
     }
   }
@@ -66,7 +66,7 @@ const shuffle = () => {
         <div class="load-input">
           <button @click="getAllUser()">获取已连接所有用户</button>
         </div>
-        <textarea class="input-target" v-model="targetString"></textarea>
+        <textarea class="input-target" v-model="rollTargetString"></textarea>
       </div>
       <div class="show-target">
         <label>
@@ -76,7 +76,7 @@ const shuffle = () => {
         <ul class="target-list">
           <li v-for="(item, index) of targetList" :key="index">
             <label class="target-name">
-              <input type="checkbox" v-model="fromListIndex" :value="index">
+              <input type="checkbox" v-model="rollFromListIndex" :value="index">
               {{ item }}
             </label>
           </li>
@@ -85,12 +85,12 @@ const shuffle = () => {
     </div>
     <div class="select-target">
       <label>抽取个数</label>
-      <select v-model="selectedCount">
-        <option v-for="(item, index) of Array.from({ length: fromListIndex.length }, (_, i) => { return i + 1 })"
+      <select v-model="rollSelectedCount">
+        <option v-for="(item, index) of Array.from({ length: rollFromListIndex.length }, (_, i) => { return i + 1 })"
           :key="index" :value="item">{{ item }}</option>
       </select>
       <button @click="shuffle()">启动！</button>
-      <p>抽取结果：<span class="selected-result">{{ selectedList }}</span></p>
+      <p>抽取结果：<span class="selected-result">{{ rollSelectedList }}</span></p>
     </div>
   </div>
 </template>

@@ -43,24 +43,34 @@ const socketMessage = (event) => {
     allChessRoom.value = data.text.data.allChessRoom
   }
   else if (data.text.type == "createChessRoom") {
-    joinedRoom.value.chessRoom = data.text.data.chessRoom
-    joinedRoom.value.roomType = data.text.data.roomType
+    joinedRoom.value.room = data.text.data.room
+    joinedRoom.value.userType = data.text.data.userType
     allChessRoom.value.push(joinedRoom.value)
-    console.log("createChessRoom", joinedRoom.value)
+  }
+  else if (data.text.type == "setChessRoom") {
+    if (joinedRoom.value?.room.id == data.text.data.room.id) {
+      joinedRoom.value.room = data.text.data.room
+    }
+    allChessRoom.value = allChessRoom.value.map(room => {
+      if (room.id === joinedRoom.value.room.id) {
+        return joinedRoom.value.room
+      }
+      return room
+    })
   }
   else if (data.text.type == "newChessRoom") {
-    allChessRoom.value.push(data.text.data.chessRoom)
+    allChessRoom.value.push(data.text.data.room)
   }
   else if (data.text.type == "joinChessRoom") {
-    joinedRoom.value.chessRoom = data.text.data.chessRoom
-    joinedRoom.value.roomType = data.text.data.roomType
+    joinedRoom.value.room = data.text.data.room
+    joinedRoom.value.userType = data.text.data.userType
   }
   else if (data.text.type == "leaveChessRoom") {
     joinedRoom.value = {}
   }
   else if (data.text.type == "deleteChessRoom") {
-    allChessRoom.value = allChessRoom.value.filter(room => room.id != data.text.data.chessRoom.id)
-    if (joinedRoom.value.chessRoom && joinedRoom.value.chessRoom.id == data.text.data.chessRoom.id) {
+    allChessRoom.value = allChessRoom.value.filter(room => room.id != data.text.data.room.id)
+    if (joinedRoom.value.room && joinedRoom.value.room.id == data.text.data.room.id) {
       joinedRoom.value = {}
     }
   }

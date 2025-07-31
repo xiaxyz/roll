@@ -18,6 +18,15 @@ const createRoom = () => {
   socket.send(JSON.stringify(message))
 }
 
+const joinRoom = (room) => {
+  let message = {
+    type: "joinChessRoom",
+    data: {
+      room: room
+    }
+  }
+  socket.send(JSON.stringify(message))
+}
 
 </script>
 
@@ -26,12 +35,13 @@ const createRoom = () => {
     <div class="operate">
       <p>房间列表</p>
       <button @click="createRoom()">创建房间</button>
+      <ul class="room-list">
+        <li class="room-item" v-for="room in allChessRoom" :key="room.id">
+          <p>{{ room.name }}</p>
+          <button @click="joinRoom(room)">加入房间</button>
+        </li>
+      </ul>
     </div>
-    <ul>
-      <li v-for="room in allChessRoom" :key="room.id">
-        {{ room.name }}
-      </li>
-    </ul>
   </div>
 </template>
 
@@ -42,5 +52,18 @@ const createRoom = () => {
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
+}
+
+.operate {
+  width: 30%;
+  height: 100%;
+}
+
+.room-item {
+  width: 100%;
+  height: 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 </style>
