@@ -137,6 +137,7 @@ nav a {
   text-decoration: none;
   align-items: center;
   background-color: #dfffdf;
+  box-sizing: border-box;
 }
 
 nav a:hover {
@@ -146,6 +147,9 @@ nav a:hover {
 nav a.router-link-exact-active {
   color: #00af00;
   background-color: #ffffef;
+  border-color: #50a0f0;
+  border-style: double;
+  border-width: 3px;
 }
 
 nav a.router-link-exact-active:hover {

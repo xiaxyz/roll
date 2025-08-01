@@ -64,8 +64,10 @@ const sendChat = () => {
             <div v-else-if="item.text.type == 'roll'">
               <p>
                 <span class="operate-name">{{ item.sender }}</span>
+                <br>
                 从
                 <span class="from-list">{{ item.text.data.rollResult.fromList }}</span>
+                <br>
                 抽取了
                 <span class="selected-list">{{ item.text.data.rollResult.selectedList }}</span>
               </p>
@@ -146,5 +148,6 @@ const sendChat = () => {
 .chat-message {
   word-wrap: break-word;
   white-space: pre-line;
+  color: #50a0f0;
 }
 </style>

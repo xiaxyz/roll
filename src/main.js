@@ -14,7 +14,7 @@ const app = createApp(App)
 
 app.use(router)
 
-app.use(socket, "ws://192.168.1.133:8080")
+app.use(socket, `ws://${window.location.hostname}:8080`)
 app.use(socketMessage)
 app.use(userInfo)
 app.use(roll)
