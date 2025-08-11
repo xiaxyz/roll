@@ -11,10 +11,10 @@ const joinedRoom = inject("joinedRoom")
 <template>
   <div class="container">
     <div class="session" v-if="Object.keys(joinedRoom).length > 0">
-      <ChessBoard />
+      <ChessBoard></ChessBoard>
     </div>
     <div class="room" v-else-if="Object.keys(joinedRoom).length == 0">
-      <ChessRoom />
+      <ChessRoom></ChessRoom>
     </div>
   </div>
 </template>

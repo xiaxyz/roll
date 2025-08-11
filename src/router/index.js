@@ -10,17 +10,22 @@ const router = createRouter({
     {
       path: "/chat",
       name: "chat",
-      component: () => import("@/views/ChatView.vue"),
+      component: () => import("@/views/ChatBoxView.vue"),
     },
     {
       path: "/roll",
       name: "roll",
-      component: () => import("@/views/RollView.vue"),
+      component: () => import("@/views/RollItemView.vue"),
+    },
+    {
+      path: "/share",
+      name: "share",
+      component: () => import("@/views/ShareScreenView.vue"),
     },
     {
       path: "/chess",
       name: "chess",
-      component: () => import("@/views/ChineseChess.vue")
+      component: () => import("@/views/ChineseChessView.vue")
     }
   ],
 })
